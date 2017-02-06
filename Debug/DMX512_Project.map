@@ -1,0 +1,339 @@
+******************************************************************************
+                  TI ARM Linker PC v5.2.2                      
+******************************************************************************
+>> Linked Wed Dec 09 07:40:26 2015
+
+OUTPUT FILE NAME:   <DMX512_Project.out>
+ENTRY POINT SYMBOL: "_c_int00"  address: 00001e89
+
+
+MEMORY CONFIGURATION
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+  FLASH                 00000000   00040000  000021cd  0003de33  R  X
+  SRAM                  20000000   00008000  000018b8  00006748  RW X
+
+
+SEGMENT ALLOCATION MAP
+
+run origin  load origin   length   init length attrs members
+----------  ----------- ---------- ----------- ----- -------
+00000000    00000000    000021d0   000021d0    r-x
+  00000000    00000000    0000026c   0000026c    r-- .intvecs
+  0000026c    0000026c    00001e00   00001e00    r-x .text
+  0000206c    0000206c    00000101   00000101    r-- .const
+  00002170    00002170    00000060   00000060    r-- .cinit
+20000000    20000000    000018b8   00000000    rw-
+  20000000    20000000    0000140c   00000000    rw- .bss
+  2000140c    2000140c    00000400   00000000    rw- .stack
+  2000180c    2000180c    000000ac   00000000    rw- .data
+
+
+SECTION ALLOCATION MAP
+
+ output                                  attributes/
+section   page    origin      length       input sections
+--------  ----  ----------  ----------   ----------------
+.intvecs   0    00000000    0000026c     
+                  00000000    0000026c     tm4c123gh6pm_startup_ccs.obj (.intvecs)
+
+.text      0    0000026c    00001e00     
+                  0000026c    00001a2c     main.obj (.text)
+                  00001c98    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.obj (.text)
+                  00001d34    0000007a                                   : memset_t2.obj (.text)
+                  00001dae    00000002     --HOLE-- [fill = 0]
+                  00001db0    0000006c                                   : autoinit.obj (.text)
+                  00001e1c    0000006a                                   : copy_decompress_rle.obj (.text)
+                  00001e86    00000002     --HOLE-- [fill = 0]
+                  00001e88    00000050                                   : boot.obj (.text)
+                  00001ed8    0000004c                                   : atoi.obj (.text)
+                  00001f24    0000004c                                   : cpy_tbl.obj (.text)
+                  00001f70    00000044                                   : exit.obj (.text)
+                  00001fb4    00000020     wait.obj (.text)
+                  00001fd4    00000018     rtsv7M4_T_le_v4SPD16_eabi.lib : args_main.obj (.text)
+                  00001fec    00000018                                   : strcmp.obj (.text)
+                  00002004    00000014                                   : _lock.obj (.text)
+                  00002018    00000014                                   : strlen.obj (.text)
+                  0000202c    00000010                                   : tolower.obj (.text)
+                  0000203c    0000000e                                   : copy_decompress_none.obj (.text:decompress:none)
+                  0000204a    0000000c                                   : copy_zero_init.obj (.text:decompress:ZI)
+                  00002056    0000000c     tm4c123gh6pm_startup_ccs.obj (.text)
+                  00002062    00000006     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_rle.obj (.text:decompress:rle24)
+                  00002068    00000004                                   : pre_init.obj (.text)
+
+.const     0    0000206c    00000101     
+                  0000206c    00000101     rtsv7M4_T_le_v4SPD16_eabi.lib : ctype.obj (.const:.string:_ctypes_)
+
+.cinit     0    00002170    00000060     
+                  00002170    00000035     (.cinit..data.load) [load image, compression = rle]
+                  000021a5    00000003     --HOLE-- [fill = 0]
+                  000021a8    0000000c     (__TI_handler_table)
+                  000021b4    00000004     --HOLE-- [fill = 0]
+                  000021b8    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  000021c0    00000010     (__TI_cinit_table)
+
+.init_array 
+*          0    00000000    00000000     UNINITIALIZED
+
+.bss       0    20000000    0000140c     UNINITIALIZED
+                  20000000    00000804     main.obj (.bss:_DMXRecieveData)
+                  20000804    00000804     main.obj (.bss:pollData)
+                  20001008    00000404     main.obj (.bss:_DMXControl)
+
+.TI.noinit 
+*          0    20000000    00000000     UNINITIALIZED
+
+.stack     0    2000140c    00000400     UNINITIALIZED
+                  2000140c    00000400     --HOLE--
+
+.data      0    2000180c    000000ac     UNINITIALIZED
+                  2000180c    00000051     main.obj (.data:_command)
+                  2000185d    00000003     --HOLE--
+                  20001860    00000041     main.obj (.data)
+                  200018a1    00000003     --HOLE--
+                  200018a4    00000008     rtsv7M4_T_le_v4SPD16_eabi.lib : _lock.obj (.data)
+                  200018ac    00000008                                   : exit.obj (.data)
+                  200018b4    00000004                                   : stkdepth_vars.obj (.data)
+
+.TI.persistent 
+*          0    2000180c    00000000     UNINITIALIZED
+
+
+LINKER GENERATED COPY TABLES
+
+__TI_cinit_table @ 000021c0 records: 2, size/record: 8, table size: 16
+	.data: load addr=00002170, load size=00000035 bytes, run addr=2000180c, run size=000000ac bytes, compression=rle
+	.bss: load addr=000021b8, load size=00000008 bytes, run addr=20000000, run size=0000140c bytes, compression=zero_init
+
+
+LINKER GENERATED HANDLER TABLE
+
+__TI_handler_table @ 000021a8 records: 3, size/record: 4, table size: 12
+	index: 0, handler: __TI_decompress_rle24
+	index: 1, handler: __TI_decompress_none
+	index: 2, handler: __TI_zero_init
+
+
+GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
+
+address   name                          
+-------   ----                          
+20001868  BlueLEDTimeout                
+2000189c  BreakReply                    
+00001f71  C$$EXIT                       
+00000f61  CommandTokenization_Processing
+0000065d  Configure_Timer1Value         
+00000691  Configure_Timer2Value         
+00000595  Configure_UART1               
+0000051d  Disable_UART1                 
+00000b4d  EndPoll                       
+20001864  GreenLEDTimeout               
+2000189d  MABReply                      
+00000b83  NextPollCheck                 
+2000189e  RXPoll                        
+20001884  RXStartCode                   
+20001860  RedLEDTimeout                 
+00002057  ResetISR                      
+UNDEFED   SHT$$INIT_ARRAY$$Base         
+UNDEFED   SHT$$INIT_ARRAY$$Limit        
+00000a39  SetPollDevices                
+00000bed  Timer1Isr                     
+00000e49  Timer2Isr                     
+00000eb1  Timer3Isr                     
+00000c75  Uart1Isr                      
+00000b39  UpdateDevices                 
+20001008  _DMXControl                   
+20000000  _DMXRecieveData               
+2000186e  _DeviceAddress                
+20001890  _End                          
+200018a0  _ExitP                        
+2000186c  _Master                       
+20001870  _MaxAddress                   
+20001894  _Mid                          
+20001873  _Poll                         
+20001878  _RXPhase                      
+2000188c  _Start                        
+20001874  _TXPhase                      
+20001872  _TxON                         
+2000180c  __STACK_END                   
+00000400  __STACK_SIZE                  
+2000160c  __STACK_TOP                   
+000021c0  __TI_CINIT_Base               
+000021d0  __TI_CINIT_Limit              
+000021a8  __TI_Handler_Table_Base       
+000021b4  __TI_Handler_Table_Limit      
+00001db1  __TI_auto_init                
+200018ac  __TI_cleanup_ptr              
+0000203d  __TI_decompress_none          
+00002063  __TI_decompress_rle24         
+200018b0  __TI_dtors_ptr                
+00000000  __TI_static_base__            
+0000204b  __TI_zero_init                
+00001d35  __aeabi_memclr                
+00001d35  __aeabi_memclr4               
+00001d35  __aeabi_memclr8               
+00001c99  __aeabi_memcpy                
+00001c99  __aeabi_memcpy4               
+00001c99  __aeabi_memcpy8               
+00001d37  __aeabi_memset                
+00001d37  __aeabi_memset4               
+00001d37  __aeabi_memset8               
+ffffffff  __binit__                     
+ffffffff  __c_args__                    
+2000140c  __stack                       
+00001fd5  _args_main                    
+00001e89  _c_int00                      
+2000180c  _command                      
+0000206c  _ctypes_                      
+200018a4  _lock                         
+00002013  _nop                          
+0000200b  _register_lock                
+00002005  _register_unlock              
+00002069  _system_pre_init              
+200018a8  _unlock                       
+00001f75  abort                         
+00001ed9  atoi                          
+ffffffff  binit                         
+00001f25  copy_in                       
+00001f7d  exit                          
+00000000  g_pfnVectors                  
+00000509  getcUart0                     
+0000083d  getcommand                    
+0000026d  initHw                        
+000008e9  intTostring                   
+00001a61  main                          
+200018b4  main_func_sp                  
+2000187c  maxAdd_change                 
+00001c99  memcpy                        
+00001d3d  memset                        
+20001898  originalMax                   
+20001888  pollCounter                   
+20000804  pollData                      
+2000189f  pollReplyWait                 
+20001886  poll_Req                      
+000004c5  putcUart0                     
+000004e1  putsUart0                     
+0000075d  readDeviceAddress             
+00000bd3  sendBreakReply                
+00000a99  startTransmission             
+00001fed  strcmp                        
+00002019  strlen                        
+00000a01  substring                     
+0000202d  tolower                       
+20001880  val_Max                       
+000006c5  wait250ms                     
+00001fb5  waitMicrosecond               
+
+
+GLOBAL SYMBOLS: SORTED BY Symbol Address 
+
+address   name                          
+-------   ----                          
+00000000  __TI_static_base__            
+00000000  g_pfnVectors                  
+0000026d  initHw                        
+00000400  __STACK_SIZE                  
+000004c5  putcUart0                     
+000004e1  putsUart0                     
+00000509  getcUart0                     
+0000051d  Disable_UART1                 
+00000595  Configure_UART1               
+0000065d  Configure_Timer1Value         
+00000691  Configure_Timer2Value         
+000006c5  wait250ms                     
+0000075d  readDeviceAddress             
+0000083d  getcommand                    
+000008e9  intTostring                   
+00000a01  substring                     
+00000a39  SetPollDevices                
+00000a99  startTransmission             
+00000b39  UpdateDevices                 
+00000b4d  EndPoll                       
+00000b83  NextPollCheck                 
+00000bd3  sendBreakReply                
+00000bed  Timer1Isr                     
+00000c75  Uart1Isr                      
+00000e49  Timer2Isr                     
+00000eb1  Timer3Isr                     
+00000f61  CommandTokenization_Processing
+00001a61  main                          
+00001c99  __aeabi_memcpy                
+00001c99  __aeabi_memcpy4               
+00001c99  __aeabi_memcpy8               
+00001c99  memcpy                        
+00001d35  __aeabi_memclr                
+00001d35  __aeabi_memclr4               
+00001d35  __aeabi_memclr8               
+00001d37  __aeabi_memset                
+00001d37  __aeabi_memset4               
+00001d37  __aeabi_memset8               
+00001d3d  memset                        
+00001db1  __TI_auto_init                
+00001e89  _c_int00                      
+00001ed9  atoi                          
+00001f25  copy_in                       
+00001f71  C$$EXIT                       
+00001f75  abort                         
+00001f7d  exit                          
+00001fb5  waitMicrosecond               
+00001fd5  _args_main                    
+00001fed  strcmp                        
+00002005  _register_unlock              
+0000200b  _register_lock                
+00002013  _nop                          
+00002019  strlen                        
+0000202d  tolower                       
+0000203d  __TI_decompress_none          
+0000204b  __TI_zero_init                
+00002057  ResetISR                      
+00002063  __TI_decompress_rle24         
+00002069  _system_pre_init              
+0000206c  _ctypes_                      
+000021a8  __TI_Handler_Table_Base       
+000021b4  __TI_Handler_Table_Limit      
+000021c0  __TI_CINIT_Base               
+000021d0  __TI_CINIT_Limit              
+20000000  _DMXRecieveData               
+20000804  pollData                      
+20001008  _DMXControl                   
+2000140c  __stack                       
+2000160c  __STACK_TOP                   
+2000180c  __STACK_END                   
+2000180c  _command                      
+20001860  RedLEDTimeout                 
+20001864  GreenLEDTimeout               
+20001868  BlueLEDTimeout                
+2000186c  _Master                       
+2000186e  _DeviceAddress                
+20001870  _MaxAddress                   
+20001872  _TxON                         
+20001873  _Poll                         
+20001874  _TXPhase                      
+20001878  _RXPhase                      
+2000187c  maxAdd_change                 
+20001880  val_Max                       
+20001884  RXStartCode                   
+20001886  poll_Req                      
+20001888  pollCounter                   
+2000188c  _Start                        
+20001890  _End                          
+20001894  _Mid                          
+20001898  originalMax                   
+2000189c  BreakReply                    
+2000189d  MABReply                      
+2000189e  RXPoll                        
+2000189f  pollReplyWait                 
+200018a0  _ExitP                        
+200018a4  _lock                         
+200018a8  _unlock                       
+200018ac  __TI_cleanup_ptr              
+200018b0  __TI_dtors_ptr                
+200018b4  main_func_sp                  
+ffffffff  __binit__                     
+ffffffff  __c_args__                    
+ffffffff  binit                         
+UNDEFED   SHT$$INIT_ARRAY$$Base         
+UNDEFED   SHT$$INIT_ARRAY$$Limit        
+
+[105 symbols]
