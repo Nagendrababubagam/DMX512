@@ -1,3 +1,7 @@
+// DMX512A Protocol Implementation on TM4C123GXL Launchpad
+// Author: Nagendra Babu Bagam
+// Email: nagendrababu.bagam@mavs.uta.edu
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <math.h>
@@ -9,6 +13,9 @@
 #define BLUE_LED     (*((volatile uint32_t *)(0x42000000 + (0x400253FC-0x40000000)*32 + 2*4)))	//PF2
 #define GREEN_LED    (*((volatile uint32_t *)(0x42000000 + (0x400253FC-0x40000000)*32 + 3*4)))	//PF3
 #define Control_PB   (*((volatile uint32_t *)(0x42000000 + (0x400253FC-0x40000000)*32 + 4*4)))	//PF4
+// DIP10 Switch
+// 9 switches to set address of slave device in slave/device Mode
+// 1 switch to denote the device as master/slave
 #define DIP_1		 (*((volatile uint32_t *)(0x42000000 + (0x400053FC-0x40000000)*32 + 4*4)))	//PB4
 #define DIP_2		 (*((volatile uint32_t *)(0x42000000 + (0x400043FC-0x40000000)*32 + 6*4)))	//PA6
 #define DIP_3		 (*((volatile uint32_t *)(0x42000000 + (0x400043FC-0x40000000)*32 + 7*4)))	//PA7
@@ -19,8 +26,9 @@
 #define DIP_8		 (*((volatile uint32_t *)(0x42000000 + (0x400073FC-0x40000000)*32 + 2*4)))	//PD2
 #define DIP_9		 (*((volatile uint32_t *)(0x42000000 + (0x400073FC-0x40000000)*32 + 1*4)))	//PD1
 #define DIP_10		 (*((volatile uint32_t *)(0x42000000 + (0x400073FC-0x40000000)*32 + 0*4)))	//PD0- Selected as Master/Slave select Switch
+// Enable bits
 #define DE_485		 (*((volatile uint32_t *)(0x42000000 + (0x400063FC-0x40000000)*32 + 6*4)))	//PC6
-#define Uart1TX      (*((volatile uint32_t *)(0x42000000 + (0x400063FC-0x40000000)*32 + 5*4)))	//PC5
+#define Uart1TX		 (*((volatile uint32_t *)(0x42000000 + (0x400063FC-0x40000000)*32 + 5*4)))	//PC5
 #define RLED		 (*((volatile uint32_t *)(0x42000000 + (0x400053FC-0x40000000)*32 + 5*4)))	//PB5
 
 // Global Variables
@@ -93,15 +101,15 @@ void initHw()
 
     // Configure PortE(1,2,3) pins as DIP Switches(6,5,4 i/p push buttons)
     GPIO_PORTE_DIR_R = 0x00;
-	GPIO_PORTE_DR2R_R=0x00;
-	GPIO_PORTE_DEN_R=0x0E;
-	GPIO_PORTE_PUR_R=0x0E;
+    GPIO_PORTE_DR2R_R=0x00;
+    GPIO_PORTE_DEN_R=0x0E;
+    GPIO_PORTE_PUR_R=0x0E;
 
     // Configure PortD(0,1,2,3) pins as DIP Switches(10,9,8,7 i/p push buttons)
-	GPIO_PORTD_DIR_R=0x00;
-	GPIO_PORTD_DR2R_R=0x00;
-	GPIO_PORTD_DEN_R=0x0F;
-	GPIO_PORTD_PUR_R=0x0F;
+    GPIO_PORTD_DIR_R=0x00;
+    GPIO_PORTD_DR2R_R=0x00;
+    GPIO_PORTD_DEN_R=0x0F;
+    GPIO_PORTD_PUR_R=0x0F;
 
     // Configure PortA(6,7) pins DIP Switches(2,3 i/p push buttons)
 	GPIO_PORTA_DIR_R = 0x00;
@@ -145,7 +153,7 @@ void initHw()
     UART0_CTL_R = UART_CTL_TXE | UART_CTL_RXE | UART_CTL_UARTEN; // enable TX, RX, and module
 
     // Provide clock gating for UART1
-    SYSCTL_RCGCUART_R |= SYSCTL_RCGCUART_R1;         // turn-on UART1, leave other uarts in same status
+    	SYSCTL_RCGCUART_R |= SYSCTL_RCGCUART_R1;         // turn-on UART1, leave other uarts in same status
 	__asm(" NOP");                                   // wait 3 clocks
 	__asm(" NOP");
 	__asm(" NOP");
@@ -211,6 +219,7 @@ void initHw()
 	PWM0_1_CTL_R = PWM_0_CTL_ENABLE;                 // turn-on PWM0 generator 1
 	PWM0_ENABLE_R = PWM_ENABLE_PWM3EN ;  		 // enable LED outputs
 }
+
 // Blocking function that writes a serial character when the UART buffer is not full
 void putcUart0(char c)
 {
@@ -221,7 +230,7 @@ void putcUart0(char c)
 // Blocking function that writes a string when the UART buffer is not full
 void putsUart0(char* str)
 {
-	int i;
+    int i;
     for (i = 0; i < strlen(str); i++)
 	  putcUart0(str[i]);
 }
@@ -248,10 +257,6 @@ bool Configure_UART1(char C)
 	// Care need to be taken while configuring PORT C as they have Associated JTAG pins.
 	GPIO_PORTC_AFSEL_R |= 0x30;                         // Selecting Alternate functions for PC4 & PC5 pins as UART pins
 	GPIO_PORTC_PCTL_R |= GPIO_PCTL_PC5_U1TX | GPIO_PCTL_PC4_U1RX;
-	/*if(C == 'T')
-		DE_485 = 1;
-	else if(C == 'R')
-		DE_485 = 0;*/
 	UART1_CTL_R = 0;                                // turn-off UART1 to allow safe programming
 	UART1_CC_R = UART_CC_CS_SYSCLK;                 // use system clock (40 MHz)
 	UART1_IBRD_R = 10;                              // r = 40 MHz / (Nx250 kHz), set floor(r)=10, where N=16
