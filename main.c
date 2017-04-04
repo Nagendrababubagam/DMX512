@@ -33,9 +33,7 @@
 
 // Global Variables
 // LED Timeouts
-int RedLEDTimeout=0;
-int GreenLEDTimeout=0;
-int BlueLEDTimeout=0;
+int RedLEDTimeout=0,GreenLEDTimeout=0,BlueLEDTimeout=0;
 // Device/Contoller Flag, By default Configured as device(slave)
 bool _Master=false;
 // Device Address, In between 0 and 511
@@ -67,13 +65,10 @@ int pollCounter=0;
 // Poll data
 int pollData[513];
 // Parameters For Polling
-int _Start=1;
-int _End=512;
-int _Mid=256;
+int _Start=1,_End=512,_Mid=256;
 // Orignal Max to use at Polling Time
 int originalMax=512;
-bool BreakReply=false;
-bool MABReply=false;
+bool BreakReply=false, MABReply=false;
 // To denote Reciever Got Poll
 bool RXPoll=false;
 // If Transmitter waiting for reply from Slave
